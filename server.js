@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const checkToken = require('./utils/checkToken.js');
-const {registerValidation, loginValidation} = require('./validation.js');
-const {login, register, getMe} = require('./controllers/userController.js')
+const {registerValidation, loginValidation, postValidation} = require('./validation.js');
+const {login, register, getMe} = require('./controllers/userController.js');
+const { createPost, getAllPosts, getPost, removePost, updatePost } = require('./controllers/postController.js'); 
 
 
 const app = express();
@@ -39,10 +40,14 @@ app.get('/', (req, res) => { // рендер домашней страницы
 });
 
 app.post('/auth/login', loginValidation, login);
-
 app.post('/auth/register', registerValidation, register);
+app.get('/auth/me', checkToken, getMe);
 
-app.get('/auth/me', checkToken, getMe)
+app.get('/posts', getAllPosts);
+app.get('/posts/:id', getPost);
+app.post('/posts', checkToken, postValidation, createPost);
+app.delete('/posts/:id', checkToken, removePost);
+app.patch('/posts/:id', checkToken, updatePost);
 
 app.use((req, res) => { // Приведенный код определяет промежуточную функцию, использующую метод app.use() для обработки определенного цикла запрос-ответ для ошибки HTTP 404.
   const title = 'Error Page';

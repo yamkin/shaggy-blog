@@ -13,10 +13,10 @@ const registerValidation = [
 ];
 
 const postValidation = [
-    body('title').isEmail(),
-    body('text').isLength({ min: 5 }),
-    body('author').isLength({ min: 3 }),
-    body('avatarURL').optional().isURL()
+    body('title', 'Введите заголовок статьи').isLength({min: 3}).isString(),
+    body('text', 'Введите текст статьи').isLength({ min: 10 }).isString(),
+    body('tags', 'Неверный формат тегов (укажите массив)').optional().isArray(),
+    body('imageURL', 'Неверная ссылка на изображение').optional().isString()
 ];
 
 module.exports = {
