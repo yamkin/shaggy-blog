@@ -27,10 +27,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static('views'));
 
-app.use((req, res, next) => { // Middleware показывающее по какому пути прошли, и какой метод был использован
-  console.log(`METHOD: ${req.method} URL REQ: ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => { // Middleware показывающее по какому пути прошли, и какой метод был использован
+//   console.log(`METHOD: ${req.method} URL REQ: ${req.url}`);
+//   next();
+// });
 
 app.use(methodOverride('_method'));
 

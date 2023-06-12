@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+
 const checkToken = (req, res, next) => {
     const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
@@ -7,7 +8,6 @@ const checkToken = (req, res, next) => {
         try {
             const decoded = jwt.verify(token, 'secret123'); // расшифровка полученного от пользователя токена
             req.userId = decoded._id;
-            console.log(req.userId)
             next();
         } catch (error) {
             console.log(error)

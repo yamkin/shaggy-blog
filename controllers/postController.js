@@ -68,8 +68,23 @@ const getPost = async (req, res) => {
 };
 
 const removePost = async (req, res) => {
+  const postId = req.params.id;
+  const user = req.userId;
+
   try {
-    const postId = req.params.id;
+    const post = await PostModel.findOne({ _id: postId});
+
+    if(!post) {
+      return res.status(401).json({
+        message: 'Статья не найдена'
+      });
+    }
+
+    if(post.user.toString() !== user.toString()) {
+      return res.status(401).json({
+        message: 'Вы не можете удалить статью'
+      });
+    }
 
     await PostModel.findOneAndDelete(
       {
@@ -91,8 +106,22 @@ const removePost = async (req, res) => {
 const updatePost = async (req, res) => {
   const { title, text, tags, imageURL } = req.body;
   const user = req.userId;
+  const postId = req.params.id;
   try {
-    const postId = req.params.id;
+
+    const post = await PostModel.findOne({ _id: postId});
+
+    if(!post) {
+      return res.status(401).json({
+        message: 'Пост не найден'
+      });
+    }
+
+    if(post.user.toString() !== user.toString()) {
+      return res.status(401).json({
+        message: 'Вы не можете изменить содержимое поста'
+      });
+    }
 
     await PostModel.updateOne(
       {

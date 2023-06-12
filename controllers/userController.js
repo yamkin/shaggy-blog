@@ -66,11 +66,11 @@ const UserModel = require('../models/user.js');
   
       const token = jwt.sign(
         {
-          _id: user._id,
+          _id: user._id, // идентификатор регистрируемого пользователя
         },
-        'secret123',
+        'secret123', // секретное слово
         {
-          expiresIn: '30d',
+          expiresIn: '30d', // время хранения токена
         });
   
       const { passwordHash, ...userData } = user._doc
@@ -87,8 +87,9 @@ const UserModel = require('../models/user.js');
   }
 
   const getMe = async (req, res) => {
+    const userId = req.userId
     try {
-      const user = await UserModel.findById(req.userId);
+      const user = await UserModel.findById(userId);
   
       if(!user) {
         return res.status(404).json({
