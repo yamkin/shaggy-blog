@@ -139,7 +139,7 @@ const updatePost = async (req, res) => {
     );
     
     res.json({
-      success: true
+      message: `Статья обновлена успешно на следующий текст: ${text}`
     });
   } catch (err) {
     console.log(err);

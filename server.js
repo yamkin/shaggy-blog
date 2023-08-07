@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+require('dotenv').config();
 const checkToken = require('./utils/checkToken.js');
 const {registerValidation, loginValidation, postValidation} = require('./validation.js');
 const {login, register, getMe} = require('./controllers/userController.js');
@@ -11,9 +12,9 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
-const db = 'mongodb+srv://Anton:*em)9O8RV9@cluster0.popjz.mongodb.net/full_stask_blog?retryWrites=true&w=majority';
+const db = process.env.DB_HOST;
 
 mongoose.connect(db)
   .then(() => console.log('DB connected!!!'))

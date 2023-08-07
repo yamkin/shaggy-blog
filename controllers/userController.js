@@ -54,6 +54,13 @@ const UserModel = require('../models/user.js');
       if (!errors.isEmpty()) {
         return res.status(400).json(errors.array());
       }
+
+      const userCheck = await UserModel.findOne({ email }); // проверка на зарегистрированного ранее пользователя
+      if (userCheck) {
+        return res.status(404).json({
+          message: 'Пользователь уже существует'
+        });
+      }
   
       const user = new UserModel({
         email,
