@@ -40,8 +40,9 @@ const getAllPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
+    if(!req.params || !req.params.id) throw new Error("Invalid input");
+    
     const postId = req.params.id;
-
     const doc = await PostModel.findOneAndUpdate(
       {
         _id: postId,
@@ -62,7 +63,8 @@ const getPost = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статьи',
+      message: 'Произошла ошибка при получении статьи, попробуйте ещё раз',
+      error: err.message,
     });
   }
 };
@@ -154,3 +156,4 @@ module.exports = {
   removePost,
   updatePost
 }
+
